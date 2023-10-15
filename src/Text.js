@@ -3,7 +3,7 @@ function textwrite(w){
         const response = await fetch(file)
         const text = await response.text()
         //console.log(text)
-        document.querySelector('.blue').innerHTML=text
+        //document.querySelector('.blue').innerHTML=text
     }
     const txt = logFileText(w)
     return txt;

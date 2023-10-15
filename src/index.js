@@ -9,6 +9,7 @@ import T from './Text';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+
     <T/>
     <E/>
     <App />
