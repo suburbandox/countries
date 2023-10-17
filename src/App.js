@@ -6,6 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
+import { useState } from 'react';
+
 
 
 function sortCountries(sortOrder, countries) {
@@ -22,9 +24,7 @@ function sortCountries(sortOrder, countries) {
     return countries.sort(o => o.name);
   }
 }
-function showModal(){
-  alert(3)
-}
+
 function fetchModalData(w){
   const logFileText = async file => {
       const response = await fetch(file)
@@ -41,8 +41,16 @@ function lower(w){return w.toLowerCase();}
 function formattedNumberDefault(p){return Number(p).toLocaleString()}
 
 function Country(props){
-
+  const [show, setShow] = useState(false);
   const country = props.country
+  const handleClose = () => {
+    setShow(false);
+  }
+  const handleShow = () => {
+    setShow(true);
+    //fetchModalData("text.txt");
+    
+  }
   //console.log(country)
   //debugger
   return <div key={country.name}
@@ -62,13 +70,26 @@ function Country(props){
           Population: {formattedNumberDefault(country.population)}<br />
           Capital: {country.capital}
         </Card.Text>
-        <Button variant="primary" onClick={showModal}>Show more</Button>
+        <Button variant="primary" onClick={handleShow}>Show more</Button>
       </Card.Body>
     </Card>
 
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
   </div>
 }
-
 
 class App extends React.Component {
   constructor(props) {
