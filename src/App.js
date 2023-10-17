@@ -7,11 +7,12 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Modal from 'react-bootstrap/Modal';
 import { useState } from 'react';
+import Markdown from 'react-markdown'
 
 
 
 function sortCountries(sortOrder, countries) {
-  console.log(sortOrder)
+  //console.log(sortOrder)
   if (sortOrder === 'asc') {
     return countries.sort(function (a, b) { return a.name.localeCompare(b.name) });
   } else if (sortOrder === 'des') {
@@ -25,16 +26,10 @@ function sortCountries(sortOrder, countries) {
   }
 }
 
-function fetchModalData(w){
-  const logFileText = async file => {
-      const response = await fetch(file)
-      const text = await response.text()
-      //console.log(text)
-      
-      document.getElementById('blue').innerHTML=text
-  }
-  const txt = logFileText(w)
-  return txt;
+async function fetchModalData(file) {
+  const response = await fetch(file)
+  const text = await response.text()
+  return text
 }
 
 function lower(w){return w.toLowerCase();}
@@ -42,13 +37,17 @@ function formattedNumberDefault(p){return Number(p).toLocaleString()}
 
 function Country(props){
   const [show, setShow] = useState(false);
+  const [data, setData]= useState(null);
   const country = props.country
+
   const handleClose = () => {
     setShow(false);
   }
-  const handleShow = () => {
+  const handleShow = async() => {
     setShow(true);
-    //fetchModalData("text.txt");
+    const fetchData = await fetchModalData("text.txt");
+    console.log(data)
+    setData(fetchData)
     
   }
   //console.log(country)
@@ -78,7 +77,7 @@ function Country(props){
         <Modal.Header closeButton>
           <Modal.Title>Modal heading</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body ><Markdown>{data}</Markdown></Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
@@ -144,7 +143,7 @@ class App extends React.Component {
     )
     const sortedCountries = sortCountries(sortOrder, filteredCountries)
     const countries = sortedCountries.map(country => {
-      return <Country country={country}/>
+      return <Country country={country}key = {country.name}/>
       
     })
 
