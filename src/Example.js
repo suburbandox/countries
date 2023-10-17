@@ -3,11 +3,12 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-function textwrite(w){
+function fetchModalData(w){
   const logFileText = async file => {
       const response = await fetch(file)
       const text = await response.text()
       //console.log(text)
+      
       document.getElementById('blue').innerHTML=text
   }
   const txt = logFileText(w)
@@ -23,7 +24,7 @@ function Example() {
   }
   const handleShow = () => {
     setShow(true);
-    textwrite("text.txt");
+    fetchModalData("text.txt");
     
   }
   const shoot = () => {
