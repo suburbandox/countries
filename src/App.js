@@ -5,6 +5,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Example  from './Example';
 
 function sortCountries(sortOrder, countries) {
   console.log(sortOrder)
@@ -20,9 +21,48 @@ function sortCountries(sortOrder, countries) {
     return countries.sort(o => o.name);
   }
 }
+function showModal(){
+  alert(3)
+}
 
 function lower(w){return w.toLowerCase();}
 function formattedNumberDefault(p){return Number(p).toLocaleString()}
+
+class Country extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props)
+  }
+  render() {
+
+    const country = this.props.country
+    //console.log(country)
+    //debugger
+    return <div key={country.name}
+
+      className={`${country.subregion} ${country.continent}`}
+      style={{
+        backgroundColor: country.HEX,
+        margin: '10px',
+      }}>
+
+      <Card style={{ width: '18rem' }} >
+        <Card.Img variant="top" src={`https://flagcdn.com/${lower(country.abbreviation)}.svg`} alt={`flag of ${country.name}`} />
+        <Card.Body>
+          <Card.Title>{country.name}</Card.Title>
+          <Card.Text>
+            Region: {country.continent}<br />
+            Population: {formattedNumberDefault(country.population)}<br />
+            Capital: {country.capital}
+          </Card.Text>
+          <Button variant="primary" onClick={showModal}>Show more</Button>
+        </Card.Body>
+      </Card>
+
+    </div>
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -76,27 +116,7 @@ class App extends React.Component {
     )
     const sortedCountries = sortCountries(sortOrder, filteredCountries)
     const countries = sortedCountries.map(country => {
-      return <div key={country.name}
-        className={`${country.subregion} ${country.continent}`}
-        style={{
-          backgroundColor: country.HEX,
-          margin: '10px',
-        }}>
-
-        <Card style={{ width: '18rem' }} >
-      <Card.Img variant="top" src={`https://flagcdn.com/${lower(country.abbreviation)}.svg`} alt={`flag of ${country.name}`}/>
-      <Card.Body>
-        <Card.Title>{country.name}</Card.Title>
-        <Card.Text>
-          Region: {country.continent}<br/>    
-          Population: {formattedNumberDefault(country.population)}<br/>
-          Capital: {country.capital}
-        </Card.Text>
-        <Button variant="primary" >Show more</Button>
-      </Card.Body>
-    </Card>
-
-      </div>
+      return <Country country={country}/>
       
     })
 
@@ -145,4 +165,5 @@ class App extends React.Component {
     );
   }
 }
+
 export default App;
