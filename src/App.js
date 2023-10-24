@@ -255,7 +255,8 @@ class App extends React.Component {
     //   }
     // }
     const l = 90;
-    const allcountries = data;
+    const allcountries = data.length;
+    //debugger
     console.log(allcountries);
     const filteredCountries = data.filter(
       (country) => filterContries(lightOrDark, country) //&& filterTemp(temp, color)
@@ -264,7 +265,7 @@ class App extends React.Component {
     const countries = sortedCountries.map((country) => {
       return <Country country={country} key={country.name} />;
     });
-    const newcountries = countries;
+    const newcountries = countries.length;
     console.log(newcountries);
     //console.log()
     //console.log(countries[0].pro)
@@ -309,7 +310,7 @@ class App extends React.Component {
           <input id="search"></input>
         </form>
         <h1>
-          now showing {l} out of {l}
+          now showing {newcountries} out of {allcountries}
         </h1>
         <div
           className="App"
