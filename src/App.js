@@ -9,6 +9,16 @@ import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import Markdown from "react-markdown";
 
+function filterSearch(query, country) {
+  console.log(query)
+  if (country.name.toLowerCase().startsWith(query.toLowerCase())) {
+    console.log(country)
+
+    return country
+  }
+}
+
+
 function sortCountries(sortOrder, countries) {
   //console.log(sortOrder)
   if (sortOrder === "asc") {
@@ -178,13 +188,14 @@ See full page map
             scrolling="no"
             marginheight="0"
             marginwidth="0"
-            src="https://maps.google.com/maps?q=12.37,-1.52&amp;z=6&amp;output=embed"
+            src={map}
+            // src="https://maps.google.com/maps?q=12.37,-1.52&amp;z=6&amp;output=embed"
           >
             <a href="https://www.google.com/maps/12.37,-1.52,4z">
               See full page map
             </a>
           </iframe>
-          
+
           {country.capital_latitude}
           `${map2}`<Markdown>{data}</Markdown>
         </Modal.Body>
@@ -207,9 +218,8 @@ class App extends React.Component {
     this.state = {
       data: null,
       lightOrDark: "",
-      temp: "",
+      search: "",
       sortOrder: "",
-      showmodel: "",
     };
   }
 
@@ -219,10 +229,10 @@ class App extends React.Component {
     const parsedData = Papa.parse(csvText, { header: true }).data;
     this.setState({ data: parsedData });
   }
-  
+
 
   render() {
-    const { data, lightOrDark, temp, sortOrder } = this.state;
+    const { data, lightOrDark, search, sortOrder } = this.state;
 
     if (data === null) {
       return "loading...";
@@ -245,21 +255,13 @@ class App extends React.Component {
         return true;
       }
     }
-    // function filterTemp(temp, color) {
-    //   if (temp === 'warm') {
-    //     return color.temp === 'warm'
-    //   } else if (temp === 'cool') {
-    //     return color.temp === 'cool'
-    //   } else {
-    //     return true
-    //   }
-    // }
+
     const l = 90;
     const allcountries = data.length;
     //debugger
     console.log(allcountries);
     const filteredCountries = data.filter(
-      (country) => filterContries(lightOrDark, country) //&& filterTemp(temp, color)
+      (country) => filterContries(lightOrDark, country) && filterSearch(search, country)
     );
     const sortedCountries = sortCountries(sortOrder, filteredCountries);
     const countries = sortedCountries.map((country) => {
@@ -286,13 +288,7 @@ class App extends React.Component {
           <option value="northamerica">North America</option>
           <option value="southamerica">South America</option>
         </select>
-        {/* <select onChange={(event) => {
-          this.setState({ temp: event.target.value })
-        }}>
-          <option value="all">Show all</option>
-          <option value="warm">Warm Only</option>
-          <option value="cool">Cool Only</option>
-        </select> */}
+
 
         <select
           onChange={(event) => {
@@ -307,7 +303,7 @@ class App extends React.Component {
 
         <form>
           <label htmlFor="search">search</label>
-          <input id="search"></input>
+          <input id="search"onChange={(event)=> {this.setState({search:event.target.value})}}></input>
         </form>
         <h1>
           now showing {newcountries} out of {allcountries}
