@@ -9,16 +9,20 @@ import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import Markdown from "react-markdown";
 
+async function fetchModalData(file) {
+  const response = await fetch(file);
+  const text = await response.text();
+  return text;
+}
+
 function filterSearch(query, country) {
-  console.log(query)
+  //console.log(query)
   if (country.name.toLowerCase().startsWith(query.toLowerCase())) {
-    console.log(country)
+    //console.log(country)
 
     return country
   }
 }
-
-
 function sortCountries(sortOrder, countries) {
   //console.log(sortOrder)
   if (sortOrder === "asc") {
@@ -41,20 +45,12 @@ function sortCountries(sortOrder, countries) {
     return countries.sort((o) => o.name);
   }
 }
-
-async function fetchModalData(file) {
-  const response = await fetch(file);
-  const text = await response.text();
-  return text;
-}
-
 function lower(w) {
   return w.toLowerCase();
 }
 function formattedNumberDefault(p) {
   return Number(p).toLocaleString();
 }
-
 function Country(props) {
   const [show, setShow] = useState(false);
   const [data, setData] = useState(null);
@@ -147,6 +143,10 @@ See full page map
           <br />
           Subregion: {country.subregion}
           <br />
+          Map: <a href={`${country.map_google}`}target="blank">map</a> 
+          <br /> 
+          Wiki: <a href={`https://en.wikipedia.org/wiki/${country.name}`}target="blank">Wiki</a>
+          <iframe width="100%" height="315" src="https://www.youtube.com/embed/udjSQot7yxw?si=aBeCjznFyyi3aQKf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
           {/* <iframe 
            title={country.name}
             width="100%" 
@@ -184,12 +184,14 @@ See full page map
             title={country.name}
             width="100%"
             height="480"
-            frameborder="0"
+            frameBorder="0"
             scrolling="no"
-            marginheight="0"
-            marginwidth="0"
-            src={map}
-            // src="https://maps.google.com/maps?q=12.37,-1.52&amp;z=6&amp;output=embed"
+            marginHeight="0"
+            marginWidth="0"
+            
+            ///src={map}
+             src="https://maps.google.com/maps?q=12.37,-1.52&amp;z=2&amp;output=embed"
+            //src={country.map_google}
           >
             <a href="https://www.google.com/maps/12.37,-1.52,4z">
               See full page map
@@ -230,7 +232,6 @@ class App extends React.Component {
     this.setState({ data: parsedData });
   }
 
-
   render() {
     const { data, lightOrDark, search, sortOrder } = this.state;
 
@@ -256,10 +257,9 @@ class App extends React.Component {
       }
     }
 
-    const l = 90;
     const allcountries = data.length;
     //debugger
-    console.log(allcountries);
+    //console.log(allcountries);
     const filteredCountries = data.filter(
       (country) => filterContries(lightOrDark, country) && filterSearch(search, country)
     );
@@ -268,7 +268,7 @@ class App extends React.Component {
       return <Country country={country} key={country.name} />;
     });
     const newcountries = countries.length;
-    console.log(newcountries);
+    //console.log(newcountries);
     //console.log()
     //console.log(countries[0].pro)
     return (
@@ -288,13 +288,10 @@ class App extends React.Component {
           <option value="northamerica">North America</option>
           <option value="southamerica">South America</option>
         </select>
-
-
         <select
           onChange={(event) => {
             this.setState({ sortOrder: event.target.value });
-          }}
-        >
+          }}>
           <option value="asc">asc </option>
           <option value="des">des </option>
           <option value="+pop">population asc</option>
@@ -324,5 +321,4 @@ class App extends React.Component {
     );
   }
 }
-
 export default App;
