@@ -145,8 +145,9 @@ See full page map
           <br />
           Map: <a href={`${country.map_google}`}target="blank">map</a> 
           <br /> 
-          Wiki: <a href={`https://en.wikipedia.org/wiki/${country.name}`}target="blank">Wiki</a>
-          <iframe width="100%" height="315" src="https://www.youtube.com/embed/udjSQot7yxw?si=aBeCjznFyyi3aQKf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          Wiki: <a href={`https://en.wikipedia.org/wiki/${country.name}`}target="blank">Wiki</a>        
+          <br /> 
+          {/* <iframe width="100%" height="315" src="https://www.youtube.com/embed/udjSQot7yxw?si=aBeCjznFyyi3aQKf" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
           {/* <iframe 
            title={country.name}
             width="100%" 
@@ -180,7 +181,7 @@ See full page map
             </iframe> */}
           {/* <a href={`${country.lo}`}></a> */}
 
-          <iframe
+          {/* <iframe
             title={country.name}
             width="100%"
             height="480"
@@ -196,10 +197,11 @@ See full page map
             <a href="https://www.google.com/maps/12.37,-1.52,4z">
               See full page map
             </a>
-          </iframe>
+          </iframe> */}
 
-          {country.capital_latitude}
-          `${map2}`<Markdown>{data}</Markdown>
+          {/* {country.capital_latitude} */}
+          {/* `${map2}` */}
+          <Markdown>{data}</Markdown>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
