@@ -60,7 +60,7 @@ function Country(props) {
   };
   const handleShow = async () => {
     setShow(true);
-    const fetchData = await fetchModalData("text.txt");
+    const fetchData = await fetchModalData("text/brazil.txt");
     //console.log(data)
     setData(fetchData);
   };
