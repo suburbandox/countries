@@ -116,7 +116,7 @@ function Country(props) {
           <br />
           Region: {country.continent}
           <br />
-          Capital: {country.capital}
+          Capital1: {country.capital}
           <br />
           Subregion: {country.subregion}
           <br />
