@@ -60,7 +60,7 @@ function Country(props) {
   };
   const handleShow = async () => {
     setShow(true);
-    const fetchData = await fetchModalData("text/brazil.txt");
+    const fetchData = await fetchModalData(`text/${country.name}.txt`);
     //console.log(data)
     setData(fetchData);
   };
@@ -221,7 +221,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       data: null,
-      lightOrDark: "",
+      continent: "",
       search: "",
       sortOrder: "",
     };
@@ -235,24 +235,24 @@ class App extends React.Component {
   }
 
   render() {
-    const { data, lightOrDark, search, sortOrder } = this.state;
+    const { data, continent, search, sortOrder } = this.state;
 
     if (data === null) {
       return "loading...";
     }
 
-    function filterContries(lightOrDark, country) {
-      if (lightOrDark === "africa") {
+    function filterContries(continent, country) {
+      if (continent === "africa") {
         return country.continent === "Africa";
-      } else if (lightOrDark === "asia") {
+      } else if (continent === "asia") {
         return country.continent === "Asia";
-      } else if (lightOrDark === "europe") {
+      } else if (continent === "europe") {
         return country.continent === "Europe";
-      } else if (lightOrDark === "oceania") {
+      } else if (continent === "oceania") {
         return country.continent === "Oceania";
-      } else if (lightOrDark === "northamerica") {
+      } else if (continent === "northamerica") {
         return country.continent === "North America";
-      } else if (lightOrDark === "southamerica") {
+      } else if (continent === "southamerica") {
         return country.continent === "South America";
       } else {
         return true;
@@ -263,7 +263,7 @@ class App extends React.Component {
     //debugger
     //console.log(allcountries);
     const filteredCountries = data.filter(
-      (country) => filterContries(lightOrDark, country) && filterSearch(search, country)
+      (country) => filterContries(continent, country) && filterSearch(search, country)
     );
     const sortedCountries = sortCountries(sortOrder, filteredCountries);
     const countries = sortedCountries.map((country) => {
@@ -275,11 +275,13 @@ class App extends React.Component {
     //console.log(countries[0].pro)
     return (
       <div>
-        <label htmlFor="options">Choose an option</label>
+        <div style={{display:"flex",justifyContent:"center"}}>
+  
+        <label htmlFor="continent">Choose an continent</label>
         <select
-          id="options"
+          id="continent"
           onChange={(event) => {
-            this.setState({ lightOrDark: event.target.value });
+            this.setState({ continent: event.target.value });
           }}
         >
           <option value="all">Show all</option>
@@ -290,7 +292,9 @@ class App extends React.Component {
           <option value="northamerica">North America</option>
           <option value="southamerica">South America</option>
         </select>
-        <select
+        <label htmlFor="order">Choose an order</label>
+        <select style={{}}
+          id="order"
           onChange={(event) => {
             this.setState({ sortOrder: event.target.value });
           }}>
@@ -299,12 +303,10 @@ class App extends React.Component {
           <option value="+pop">population asc</option>
           <option value="-pop">population dec</option>
         </select>
-
-        <form>
           <label htmlFor="search">search</label>
-          <input id="search"onChange={(event)=> {this.setState({search:event.target.value})}}></input>
-        </form>
-        <h1>
+          <input id="search" onChange={(event)=> {this.setState({search:event.target.value})}}></input>
+        </div>
+        <h1 style={{color:"blue",textAlign: "center"}}>
           now showing {newcountries} out of {allcountries}
         </h1>
         <div
