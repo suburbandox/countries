@@ -81,7 +81,6 @@ function Country(props) {
       key={country.name}
       className={`${country.subregion} ${country.continent}`}
       style={{
-        backgroundColor: country.HEX,
         margin: "10px",
       }}
     >
@@ -99,7 +98,6 @@ function Country(props) {
             Population: {formattedNumberDefault(country.population)}
             <br />
             Capital: {country.capital}
-
           </Card.Text>
           <Button variant="primary" onClick={handleShow}>
             Show more
@@ -124,22 +122,12 @@ function Country(props) {
           <br /> 
           Wiki: <a href={`https://en.wikipedia.org/wiki/${country.name}`}target="blank">Wiki</a>        
           <br /> 
-
           <Markdown>{data}</Markdown>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
       </Modal>
     </div>
   );
 }
-
 class App extends React.Component {
   constructor(props) {
     super(props);
